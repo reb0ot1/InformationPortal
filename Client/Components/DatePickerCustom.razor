@@ -1,0 +1,84 @@
+﻿<div class="row">
+    <select @bind="DayStart">
+        @for (int i = 1; i <= 31; i++)
+        {
+            <option>@i</option>
+        }
+    </select>
+    <select @bind="MonthStart">
+        @for (int i = 1; i <= 12; i++)
+        {
+            <option value="@i">@Months[i - 1]</option>
+        }
+    </select>
+    <select @bind="YearStart">
+        @for (int i = DateTime.Now.Year - 5;
+   i <= DateTime.Now.Year + 5; i++)
+        {
+            <option>@i</option>
+        }
+    </select>
+</div>
+<div class="row">
+    <select @bind="DayEnd">
+        @for (int i = 1; i <= 31; i++)
+        {
+            <option>@i</option>
+        }
+    </select>
+    <select @bind="MonthEnd">
+        @for (int i = 1; i <= 12; i++)
+        {
+            <option value="@i">@Months[i - 1]</option>
+        }
+    </select>
+    <select @bind="YearEnd">
+        @for (int i = DateTime.Now.Year - 5;
+  i <= DateTime.Now.Year + 5; i++)
+        {
+            <option>@i</option>
+        }
+    </select>
+</div>
+<button type="button" @onclick="OnSelectClick">Apply</button>
+@code {
+    private DateTime dateValue = DateTime.UtcNow;
+
+    public int DayStart { get; set; }
+    public int MonthStart { get; set; }
+    public int YearStart { get; set; }
+
+    public int DayEnd { get; set; }
+    public int MonthEnd { get; set; }
+    public int YearEnd { get; set; }
+
+    [Parameter]
+    public DateTime InitialDate { get; set; }
+
+    [Parameter]
+    public EventCallback<(DateTime, DateTime)> DateSelected { get; set; }
+
+    public string[] Months { get; set; } = {
+       "January", "February", "March",
+       "April", "May", "June", "July",
+       "August", "September", "October",
+       "November", "December" };
+
+    protected override void OnInitialized()
+    {
+        this.DayStart = InitialDate.Day;
+        this.MonthStart = InitialDate.Month;
+        this.YearStart = InitialDate.Year;
+
+        this.DayEnd = InitialDate.Day;
+        this.MonthEnd = InitialDate.Month;
+        this.YearEnd = InitialDate.Year;
+    }
+
+    public Task OnSelectClick()
+    {
+        DateTime dt = new DateTime(YearStart, MonthStart, DayStart);
+        return DateSelected.InvokeAsync((dt, dt));
+    }
+
+}
