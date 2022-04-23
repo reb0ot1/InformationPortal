@@ -1,6 +1,7 @@
-﻿using CovidInformationPortal.Client.Models.Response;
+﻿using CovidInformationPortal.Client.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 using System.Threading.Tasks;
 
 namespace CovidInformationPortal.Client.Components
@@ -11,7 +12,7 @@ namespace CovidInformationPortal.Client.Components
         private IJSRuntime jsRuntimeService { get; set; }
 
         [Parameter]
-        public LineChartDataModel Data { get; set; }
+        public LineChartModel Data { get; set; }
 
         [Parameter]
         public string ChartName { get; set; }

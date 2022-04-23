@@ -10,5 +10,7 @@ namespace CovidInformationPortal.Services
     public interface IInformationService
     {
         Task<LineChartDataModel> GatherDataPositiveVsTests(FilterModel filter);
+        Task<LineChartDataModel> GatherLostBattleData(FilterModel filter);
+        Task<LineChartDataModel> GatherPossitiveVaccinated(FilterModel filter);
     }
 }

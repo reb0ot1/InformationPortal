@@ -11,6 +11,7 @@ namespace CovidInformationPortal.Data
 
         public DbSet<ReadTemplate> ReadTemplate { get; set; }
         public DbSet<DayInformation> DayInformation { get; set; }
+        public DbSet<LostBattle> LostBattle { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

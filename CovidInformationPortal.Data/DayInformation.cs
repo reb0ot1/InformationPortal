@@ -37,5 +37,7 @@ namespace CovidInformationPortal.Data
         public int ReadTemplateId { get; set; }
 
         public ReadTemplate ReadTemplate { get; set; }
+
+        public LostBattle LostBattle { get; set; }
     }
 }

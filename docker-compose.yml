@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  infoportal:
+    image: "information-portal:dev"
+    container_name: infportal
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=InformationData;User Id=sa;Password=Pass@word;Integrated Security=False;MultipleActiveResultSets=true
+    ports:
+      - "10095:80"
+    networks:
+      - dockernet
+      
+networks:
+  dockernet:
+    external: true

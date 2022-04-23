@@ -10,6 +10,12 @@ namespace CovidInformationPortal.Models.VisualizationModels
     {
         public string Name { get; set; }
 
+        public string Type { get; set; }
+
+        public int? YAxis { get; set; }
+
         public double?[] Data { get; set; }
+
+        public TootlTipModel Tooltip { get; set; }
     }
 }

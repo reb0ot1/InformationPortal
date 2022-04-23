@@ -1,7 +1,6 @@
 ﻿(function () {
     window.lineChart = {
         showChart: function (data, containerName) {
-            console.log(data);
             Highcharts.chart(containerName, {
                 chart: {
                     type: 'line'
@@ -20,12 +19,12 @@
                         text: ''
                     }
                 },
-                tooltip: {
-                    formatter: function () {
-                        return '<b>' + this.series.name+'</b>:'+this.y;
-                    }
-                    //pointFormat: '<b>Positive found</b>:{point.y:,.2f}'
-                },
+                //tooltip: {
+                //    //formatter: function () {
+                //    //    return '<b>' + this.series[0].name+'</b>:'+this.y;
+                //    //}
+                //    //pointFormat: '<b>Positive found</b>:{point.y:,.2f}'
+                //},
                 //plotOptions: {
                 //    line: {
                 //        dataLabels: {

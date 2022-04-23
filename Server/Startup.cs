@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using AutoMapper;
+using Quartz;
+using CovidInformationPortal.Services.Utilities;
 
 namespace CovidInformationPortal.Server
 {
@@ -31,6 +34,44 @@ namespace CovidInformationPortal.Server
             services.AddRazorPages();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IInformationService, InformationService>();
+            services.AddScoped<IDataGatheringService, DataGatheringService>();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddQuartz(q =>
+            {
+                q.SchedulerId = "Scheduler-Core"; 
+
+                // we take this from appsettings.json, just show it's possible
+                // q.SchedulerName = "Quartz ASP.NET Core Sample Scheduler";
+
+                // as of 3.3.2 this also injects scoped services (like EF DbContext) without problems
+                q.UseMicrosoftDependencyInjectionJobFactory();
+
+                // or for scoped service support like EF Core DbContext
+                // q.UseMicrosoftDependencyInjectionScopedJobFactory();
+
+                // these are the defaults
+                q.UseSimpleTypeLoader();
+                q.UseInMemoryStore();
+                q.UseDefaultThreadPool(tp =>
+                {
+                    tp.MaxConcurrency = 10;
+                });
+
+                // quickest way to create a job with single trigger is to use ScheduleJob
+                // (requires version 3.2)
+                q.ScheduleJob<GetDataJob2>(trigger => trigger
+                    .WithIdentity("scrape data job")
+                    .StartNow()
+                    .WithCronSchedule("0 * * ? * *")
+                    //.WithCronSchedule("0 0 20,22 ? * *")
+                    .WithDescription("job gathering data")
+                );
+            });
+
+            services.AddQuartzHostedService(s =>
+            {
+                s.WaitForJobsToComplete = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

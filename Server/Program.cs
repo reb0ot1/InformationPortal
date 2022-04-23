@@ -23,9 +23,11 @@ namespace CovidInformationPortal.Server
                     webBuilder.UseStartup<Startup>();
                 }).ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    config.AddJsonFile("appsettings.json",
+                    config
+                    .AddJsonFile("appsettings.json",
                     optional: true,
-                    reloadOnChange: true);
+                    reloadOnChange: true)
+                    .AddEnvironmentVariables();
                 });
     }
 }

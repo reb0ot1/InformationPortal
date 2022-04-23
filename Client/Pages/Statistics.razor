@@ -2,10 +2,16 @@
 @using BlazorDateRangePicker
 @using CovidInformationPortal.Client.Models.Response
 
-<h3>Statistics</h3>
-<div class="row col-md-12">
+<div class="row col-md-12 container-fluid">
     <div>
-        <DateRangePicker DateFormat="dd/MM/yyyy" OnRangeSelect="OnRangeSelect" placeholder="Select dates...">
+        <select id="department" value="@DatePeriodTypeSelected" @onchange="OnDateTypeChange" style="height: 30px; margin-right: 10px;">
+            <option value="Days">Дни</option>
+            @*<option value="Weeks">Weeks</option>*@
+            <option value="Months">Месеци</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <DateRangePicker DateFormat="dd/MM/yyyy" Culture="CultureInfo" OnRangeSelect="OnRangeSelect" placeholder="Избери дата...">
             <ButtonsTemplate>
                 <button class="cancelBtn btn btn-sm btn-default"
                         @onclick="@context.ClickCancel" type="button">
@@ -13,26 +19,21 @@
                 </button>
                 <button class="cancelBtn btn btn-sm btn-default"
                         @onclick="@(e => ResetClick(e, context))" type="button">
-                    Reset
+                    Изчисти
                 </button>
                 <button class="applyBtn btn btn-sm btn-primary" @onclick="@context.ClickApply"
                         disabled="@(context.TStartDate == null || context.TEndDate == null)"
                         type="button">
-                    Apply
+                    Намери
                 </button>
             </ButtonsTemplate>
         </DateRangePicker>
     </div>
-    <div>
-        <select id="department" value="@DatePeriodTypeSelected" @onchange="OnDateTypeChange" style="height: 30px; margin-right: 10px;">
-            <option value="Days">Days</option>
-            <option value="Weeks">Weeks</option>
-            <option value="Months">Months</option>
-        </select>
-    </div>
 </div>
 <div class="row">
-    @if (LineChartData == null)
+    @if (LineAndColumnChartPositiveNegative == null ||
+      LineAndColumnChartLostBattle == null || 
+      LineAndColumnChartPositiveVaccinated == null)
     {
         <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
@@ -43,7 +44,23 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <LineChart @ref="LineChart" Data="@LineChartData" ChartName="Maded tests / Positive found" ChartContainer="lineChart" />
+                    <LineAndColumnChart @ref="LineChartPercents" Data="@LineAndColumnChartPositiveNegative" ChartName="@TestsPositiveRatioChartLabel" ChartContainer="lineChartFirst" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <LineAndColumnChart @ref="LineChartComponent" Data="@LineAndColumnChartLostBattle" ChartName="@LostBattleChartLabel" ChartContainer="lineChartSecond" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <LineChart @ref="LineChartPositiveVaccinatedComponent" Data="@LineAndColumnChartPositiveVaccinated" ChartName="@VaccinatedPossitiveChartLabel" ChartContainer="lineChartThird" />
                 </div>
             </div>
         </div>
