@@ -30,6 +30,7 @@ namespace CovidInformationPortal.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //TEST
             var connectionString = String.Format("Server={0},{1};Database={2};User Id={3};Password={4}",
                 Environment.GetEnvironmentVariable("DB_HOST"),
                 Environment.GetEnvironmentVariable("DB_PORT"),
