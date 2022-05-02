@@ -22,7 +22,7 @@ jobs:
     - name: docker push
       run: docker-compose push
 
-deploy:
+  deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
