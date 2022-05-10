@@ -14,7 +14,7 @@ services:
     #   - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=InformationData;User Id=sa;Password=Pass@word;Integrated Security=False;MultipleActiveResultSets=true
     ports:
       - "${HTTP_PORT}:80"
-      - "${HTTPS_PORT}:443"
+      # - "${HTTPS_PORT}:443"
     volumes:
       - ~/.aspnet/https:/https:ro
     networks:

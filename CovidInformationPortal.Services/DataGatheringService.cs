@@ -49,7 +49,7 @@ namespace CovidInformationPortal.Services
             try
             {
                 var pageNumber = 1;
-                var maxPageNumber = 3;
+                var maxPageNumber = 2;
                 bool dateFound = false;
                 string infoUrl = string.Empty;
                 string contentPageNumber = string.Empty;
