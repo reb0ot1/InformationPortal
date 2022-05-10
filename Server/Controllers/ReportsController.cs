@@ -5,6 +5,11 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using AutoMapper;
 using CovidInformationPortal.Models.Response;
+using Quartz.Impl;
+using System;
+using Quartz;
+using Quartz.Impl.Matchers;
+using System.Collections.Generic;
 
 namespace CovidInformationPortal.Server.Controllers
 {
@@ -17,7 +22,7 @@ namespace CovidInformationPortal.Server.Controllers
         private readonly IMapper mapper;
 
         public ReportsController(
-            ILogger<ReportsController> logger, 
+            ILogger<ReportsController> logger,
             IInformationService informationService,
             IMapper mapper
             )
@@ -50,5 +55,16 @@ namespace CovidInformationPortal.Server.Controllers
 
             return this.Ok(this.mapper.Map<LineChartApiModel>(result));
         }
+
+        public async Task<IActionResult> GetJobs()
+        {
+            StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
+            IScheduler scheduler = schedulerFactory.GetScheduler().Result;
+
+            var all = scheduler.GetCurrentlyExecutingJobs();
+
+            return this.Ok();
+        }
+    
     }
 }

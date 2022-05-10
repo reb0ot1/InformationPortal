@@ -1,18 +1,7 @@
-﻿using CovidInformationPortal.Data;
-using CovidInformationPortal.Models;
-using CovidInformationPortal.Models.Attributes;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Quartz;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using Utf8Json;
 
 namespace CovidInformationPortal.Services.Utilities
 {
@@ -37,7 +26,6 @@ namespace CovidInformationPortal.Services.Utilities
             {
                 this.logger.LogError(ex, $"Something went wrong when processing data.");
             }
-            
         }
     }
 }
