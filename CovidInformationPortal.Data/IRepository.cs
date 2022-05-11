@@ -15,5 +15,7 @@ namespace CovidInformationPortal.Data
         Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter);
 
         Task AddManyAsync(IEnumerable<TEntity> entities);
+
+        Task AddAsync(TEntity entity);
     }
 }

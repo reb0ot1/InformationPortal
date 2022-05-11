@@ -50,6 +50,7 @@ namespace CovidInformationPortal.Server.Utilities
                 q.ScheduleJob<GetDataJob2>(trigger => trigger
                     .WithIdentity("scrape data job")
                     .StartNow()
+                    //Add this configuration to the appsettings.json
                     .WithCronSchedule("0 0 9,12,18 ? * *")
                     //.WithCronSchedule("0 */5 * ? * *")
                     .WithDescription("job gathering data")
