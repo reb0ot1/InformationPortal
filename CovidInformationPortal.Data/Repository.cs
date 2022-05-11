@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,12 @@ namespace CovidInformationPortal.Data
         where TEntity : class, new()
     {
         protected CovidInformationContext databaseContext;
-        public Repository(CovidInformationContext dbContext)
+        protected ILogger<Repository<TEntity>> logger;
+        public Repository(CovidInformationContext dbContext, ILogger<Repository<TEntity>> logger)
         {
             this.databaseContext = dbContext;
+            this.logger = logger;
+
         }
 
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
@@ -42,8 +46,22 @@ namespace CovidInformationPortal.Data
             }
             catch (Exception ex)
             {
-                ;
+                this.logger.LogError($"Failed to add entities from type {typeof(TEntity)}.", ex);
             }
+        }
+
+        public async Task AddAsync(TEntity entity)
+        {
+            try
+            {
+                await this.databaseContext.Set<TEntity>().AddAsync(entity);
+                await this.databaseContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError($"Failed to add entity from type {typeof(TEntity)}.", ex);
+            }
+            
         }
     }
 }
